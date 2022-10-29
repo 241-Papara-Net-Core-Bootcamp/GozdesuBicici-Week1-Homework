@@ -91,6 +91,9 @@ namespace Owner.API.Controllers
         public IActionResult Delete(int id)
         {
             var deletedOwner = owners.FirstOrDefault(x => x.ID == id);
+
+            if (deletedOwner == null)
+                return NotFound($"Owner {id} not found.");
             owners.Remove(deletedOwner);
             return Ok("Silme işlemi tamamlandı");
         }
