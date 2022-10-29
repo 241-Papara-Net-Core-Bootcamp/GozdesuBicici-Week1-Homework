@@ -57,12 +57,20 @@ namespace Owner.API.Controllers
         }
 
         [HttpPost]
-        public OwnerModel Post([FromBody] OwnerModel owner)
+        public IActionResult Post([FromBody] OwnerModel owner)
         {
-          
+
+            if (owner.Description.Contains("hack"))
+            {
+                return BadRequest("Açıklamaya hack yazıldığı için işlem yapılamamaktadır.");
+            }
+            else
+            {
                 owners.Add(owner);
-                return owner;
-            
+                return Ok(owner);
+            }
+
+
 
         }
 
@@ -80,10 +88,11 @@ namespace Owner.API.Controllers
         }
 
         [HttpDelete("id")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             var deletedOwner = owners.FirstOrDefault(x => x.ID == id);
             owners.Remove(deletedOwner);
+            return Ok("Silme işlemi tamamlandı");
         }
     }
 }
